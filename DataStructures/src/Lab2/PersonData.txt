@@ -1,0 +1,3 @@
+yusuf 10 120
+abed 20 120
+ahmed 15 200

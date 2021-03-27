@@ -1,0 +1,102 @@
+Data Structures and Algorithms
+Dr. Mohamed Nour 
+Extra  
+abc
+Release Data 21-04-2018
+Due Date       01-05-2018
+The manager of IdiotBank is desperate: they haven't computerized their systems yet, and his boss (the founder of the IdiotCo group of companies) is coming in 2 weeks to see their flashy new account mangement system. While the manager knows you can't write a complete system for scratch, he wants you to work up a quick demo to show off how he can easily track multiple accounts.
+He asserts that the program only needs to handle 10 accounts at this point, so you plan to use an unordered list to store the information. Two pieces of information must be stored: the account holder's name (which is just the last name for this assignment, like "Doe"), and the balance of their account (such as 123.45). A command-line interface is all that's needed for now to manipulate this information. 
+You elect to write exactly three Java classes to fulfil the above requirements. 
+A class, called Account, that contains an individual account, i.e., it contains (at a minimum) the two fields described above, a constructor to assign values to the fields, and a toString() method to return a String that represents the information in the account. 
+A class, called Database, that contains a list which will be composed of many of these individual accounts. You can hardcode the length of the array that this list is composed of (see above for a clue as to what the length should be). This class must have methods to support the following operations: 
+Add: Adds a new account to the list, with two parameters (name and balance). This method returns a boolean, which is true if the account was successfully added and false if the account was not successfully added (for example, if the array is full). You do not need to search for duplicates. 
+Remove: Given a name as a parameter, remove an account from the list. Return a boolean indicating success, similar to the add function. 
+Search: Given a name as a parameter, return the Account object that contains that name. 
+Dump: Print out all the accounts. No parameters, and no return values. 
+Total: Return the total amount of assets in the bank, e.g., a total of all the accounts' balances. Does not take any parameters. 
+A class called App which contains one instance of the list and the main method. It takes input from the user (at a ">" prompt) and manipulates the list accordingly. Here are the commands: 
+a <name> <amount>: Add an account for name with amount as the balance, or print out "database full" if the array is full;
+r <name>: Remove the account associated with name, or print out "not found" if it's not found;
+s <name>: Find and print out the information associated with name. Print out "not found" if it's not found;
+d: Dump the entire database;
+t: Print out the total assets in the bank;
+q: Quit the program.
+A sample execution of the program would look like the following. Input is italicized.
+$ java App
+Welcome to the IdiotBank Account Management System!
+> a Doe 500.23
+> a Foo 240.25
+> s Test
+Not found
+> s Doe
+Doe: 500.23
+> d
+Doe: 500.23
+Foo: 240.25
+> r Doe
+> t
+240.25
+> q
+$ 
+
+We are given a labyrinth of size N x N. Some of its cells are empty (0) and some are full (x). We can move from an empty cell to another empty cell if they share common wall. Given a starting position (*) calculate and fill in the array the minimal distance from this position to any other cell in the array. Use "u" for all unreachable cells. Example:
+
+
+
+
+The goal of this programming exercise is to develop a tool that helps you query the frequency of individual words in a body of text. Your program will read a corpus of words (such as any text book available online texts), and prompts the user to enter one or more words, for which it will produce the frequency. Treat words as case-preserving but case-insensitive. 
+You will implement a hash table to store this information. Use a "separate chaining" style of hash table, that is, a hash table that consists of linked lists pointing to one or more entries that hash to that location. You will be storing a tuple of information in this hash table: the word will be the key, and a frequency count will be kept along with the key. 
+Develop a Word class that contains a word and a frequency and methods to manipulate its content. The word and the frequency fields themselves should be marked private. Note that the initial frequency of a new Word will be 1. 
+Build a WordHashtable class that contains the code necessary to: 
+Construct the hash table. This should take one parameter -- the size of the array of LinkedLists (i.e., the number of buckets). Note that you should not actually create the linked lists here, just the array that may potentially contain them.
+insert words. This method takes one parameter (the word, as String) and hashes it. It then either inserts it if it's not currently there (first creating a LinkedList), or increments the frequency of the Word if it's found. It then (potentially) updates two object-level variables: uniqueWords is incremented when a word is first inserted, and numCollisions is incremented if there are already words in that bucket, but if none of them match what you're looking for 
+getFrequency of words. This takes a String, looks up the word, and returns the frequency (an int) if found, or -1 if it's not found.
+getNumCollisions and getNumUniqueWords returns the number of collisions and unique words, respectively, as generated by calls to insert above;
+hashFunc computes the hash of a String. Use the String hash technique. Modify the hash function so that if you encounter a non-alphabet character as you walk through the String, it's ignored, and uppercase characters should be converted to lowercase characters before they're computed as part of the hashVal. Make sure you don't actually remove the punctuation from the word when you store it -- just for the purposes of computing the hash function. 
+Develop a main method to read the corpus line-by-line, tokenize it into individual words separated by whitespace, and feed each of the individual words into an instance of the WordHashtable (of which you should create an instance that holds at least 10,000 buckets). This main method should then print out the number of words, collisions, and unique words found. Finally, it should repeatedly prompt the user to enter a word, and either print out its frequency or "Not found". To quit, the user should just hit [Enter] (e.g., an empty string).
+
+An execution on Machiavelli's "The Prince" resulted in the following, with input italicized. 
+$ java WordHashtable
+51385 words, 3760 collisions, 7939 unique words
+> power
+Word power has frequency 28
+> ruler
+Not found
+> prince
+Word prince has frequency 142
+>
+ In addition to being able to lookup words in the WordHashtable, I'd like to know the top 10 words occuring in the corpus of text. This can be accomplished by using a heap. The strategy is that we create an array-backed heap that contains the same instances of Word that are inserted in the hash table -- that is, both the heap and the hash table contain references to Word objects -- just organized in a different fashion. (If you do this, make sure to clearly indicate you've done so in your README.) 
+Modify your Word class so that it maintains its index position in the heap (heapIndex), with default value -1. The rationale for this will become clear in part (b).
+Create a WordHeap class, consisting of: 
+A constructor that takes the number of objects this heap may contain;
+An insert method that takes a Word object, inserts it at the end, and updates that Word's heapIndex. Interestingly, you don't need to worry about bubbling up here (why?).
+An increasedFreq method that takes a Word object and bubbles it up as necessary, based on its recently-changed frequency. Make sure the Word actually belongs in the heap before doing this. This method won't actually change the frequency; it'll just make sure the heap property is maintained when an external entity changes it. Make sure you update the heapIndexes here as well. You must implement this method in O(log n) time.
+A remove method that takes the maximum-frequency Word object (i.e., the one at the root), removes it, "fixes" the heap (by swapping the last to the root, and bubbling down), and returns the removed Word. The Word that's removed should have its heap index changed to -1.
+An isEmpty method that returns a boolean.
+Modify the WordHashtable class such that: 
+In the hash table's constructor, it creates an object-level WordHeap the same size as the hash table;
+Whenever it inserts a word for the first time, that same Word is inserted into the heap;
+Whenever a word's frequency is incremented, the heap's increasedFreq method is called;
+A method called getTop10 is implemented that takes no parameters and returns an array of 10 Words -- the result of 10 removes from the heap -- in order, with the highest-frequency word first. (Yes, this does assume there are 10 to remove; if there aren't, make those cells null.)
+Modify the main method such that it calls getTop10 and prints out the results out after it prints out the hash table's statistics.
+
+Write a program to read a sequence of characters and report the number
+of "le" pairs in the sequence. Assume that the sequence is terminated by a
+period ".". Your program should work for sequences of any length, including
+zero or one characters before the ".".
+A run should look like this:
+$ Enter a string terminated by '.': battle seller.
+$ There are 2 occurrences of 'le'.
+$ Enter a string terminated by '.': leap.
+$ There is 1 occurrence of 'le'.
+$ Enter a string terminated by '.': zoo.
+$ There is no occurrence of 'le'.
+
+
+Write a program that takes an input number n and calculate the nth Fibonacci member fib(n). fib(n), it is defined as:
+fib(n) = 1    if n = 1  or  n = 2
+                    fib(n - 1) + fib(n - 2) if n > 2
+
+
+
+
